@@ -1,3 +1,3 @@
 # equipment-rental
 
-This project was created using [create-express-app](https://github.com/cszatma/create-express-app).
+Web app for Database Systems I course. Build with express.js, React and oracle db.
