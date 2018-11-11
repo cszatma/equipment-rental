@@ -1,0 +1,16 @@
+export default [
+  `DROP TABLE contains`,
+  `DROP TABLE sells`,
+  `DROP TABLE supplies_rentable`,
+  `DROP TABLE supplies_consumable`,
+  `DROP TABLE consumable_item`,
+  `DROP TABLE rental_item`,
+  `DROP TABLE incoming_invoice`,
+  `DROP TABLE sale_invoice`,
+  `DROP TABLE rental_invoice`,
+  `DROP TABLE purchase_order`,
+  `DROP TABLE sale`,
+  `DROP TABLE rental`,
+  `DROP TABLE client`,
+  `DROP TABLE supplier`,
+];
