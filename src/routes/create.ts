@@ -20,7 +20,7 @@ router.post(
   '/tables',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(createTables);
-    res.json(results);
+    res.json(results.map(result => result.rows));
   }),
 );
 
@@ -28,7 +28,7 @@ router.post(
   '/tables/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(createTables[req.params.index]);
-    res.json(result);
+    res.json(result.rows);
   }),
 );
 
@@ -45,7 +45,7 @@ router.post(
   '/views',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(createViews);
-    res.json(results);
+    res.json(results.map(result => result.rows));
   }),
 );
 
@@ -53,7 +53,7 @@ router.post(
   '/views/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(createViews[req.params.index]);
-    res.json(result);
+    res.json(result.rows);
   }),
 );
 

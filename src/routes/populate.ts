@@ -18,16 +18,19 @@ router.get('/:index', (req: Request, res: Response) => {
 router.post(
   '/',
   catchErrors(async (req: Request, res: Response) => {
-    const results = await executeSql.batch(populateTables);
-    res.json(results);
+    const results = await executeSql.batch(populateTables, true);
+    res.json(results.map(result => result.rows));
   }),
 );
 
 router.post(
   '/:index',
   catchErrors(async (req: Request, res: Response) => {
-    const result = await executeSql.single(populateTables[req.params.index]);
-    res.json(result);
+    const result = await executeSql.single(
+      populateTables[req.params.index],
+      true,
+    );
+    res.json(result.rows);
   }),
 );
 

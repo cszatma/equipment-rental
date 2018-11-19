@@ -21,7 +21,7 @@ router.post(
   '/simple',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(simpleQueries);
-    res.json(results);
+    res.json(results.map(result => result.rows));
   }),
 );
 
@@ -29,7 +29,7 @@ router.post(
   '/simple/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(simpleQueries[req.params.index]);
-    res.json(result);
+    res.json(result.rows);
   }),
 );
 
@@ -46,7 +46,7 @@ router.post(
   '/advanced',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(advancedQueries);
-    res.json(results);
+    res.json(results.map(result => result.rows));
   }),
 );
 
@@ -54,7 +54,7 @@ router.post(
   '/advanced/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(advancedQueries[req.params.index]);
-    res.json(result);
+    res.json(result.rows);
   }),
 );
 
@@ -71,7 +71,7 @@ router.post(
   '/views',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(queryViews);
-    res.json(results);
+    res.json(results.map(result => result.rows));
   }),
 );
 
@@ -79,7 +79,7 @@ router.post(
   '/views/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(queryViews[req.params.index]);
-    res.json(result);
+    res.json(result.rows);
   }),
 );
 

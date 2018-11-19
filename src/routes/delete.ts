@@ -19,7 +19,7 @@ router.post(
   '/tables',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(dropTables);
-    res.json(results);
+    res.json(results.map(result => result.rows));
   }),
 );
 
@@ -27,7 +27,7 @@ router.post(
   '/tables/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(dropTables[req.params.index]);
-    res.json(result);
+    res.json(result.rows);
   }),
 );
 
