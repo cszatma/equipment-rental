@@ -79,6 +79,6 @@ if (startAll) {
 function serverProgram() {
   return {
     command: require.resolve(`${paths.appNodeModules}/nodemon/bin/nodemon`),
-    args: [paths.appIndex, '--exec', 'ts-node'],
+    args: [paths.appIndex, '--exec', 'ts-node', '-e', 'ts'],
   };
 }
