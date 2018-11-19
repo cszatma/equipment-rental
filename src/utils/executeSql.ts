@@ -9,14 +9,20 @@ const doRelease = (connection: IConnection) =>
     }
   });
 
-const single = (sql: string): Promise<IExecuteReturn> =>
+const single = (sql: string, commit?: boolean): Promise<IExecuteReturn> =>
   new Promise(async (resolve, reject) => {
     let connection: IConnection | undefined;
 
     try {
       connection = await oracledb.getConnection(oracleConfig);
-      const result = await connection.execute(sql);
+      const result = await connection.execute(sql, [], {
+        outFormat: oracledb.OBJECT,
+      });
       resolve(result);
+
+      if (commit) {
+        await connection.commit();
+      }
     } catch (err) {
       reject(err);
     } finally {
@@ -26,18 +32,25 @@ const single = (sql: string): Promise<IExecuteReturn> =>
     }
   });
 
-const batch = (sqlStatements: string[]): Promise<IExecuteReturn[]> =>
+const batch = (
+  sqlStatements: string[],
+  commit?: boolean,
+): Promise<IExecuteReturn[]> =>
   new Promise(async (resolve, reject) => {
     let connection: IConnection | undefined;
 
     try {
       connection = await oracledb.getConnection(oracleConfig);
       const executionPromises = sqlStatements.map(sql =>
-        connection!.execute(sql),
+        connection!.execute(sql, [], { outFormat: oracledb.OBJECT }),
       );
       // @ts-ignore
       const results = await Promise.all(executionPromises);
       resolve(results);
+
+      if (commit) {
+        await connection.commit();
+      }
     } catch (err) {
       reject(err);
     } finally {
