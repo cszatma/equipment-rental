@@ -4,7 +4,7 @@
   "private": true,
   "engines": {
     "node": "10.13.0",
-    "yarn": "1.12.1"
+    "yarn": "1.12.3"
   },
   "scripts": {
     "build": "node scripts build",
