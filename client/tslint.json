@@ -11,7 +11,8 @@
   "rules": {
     "prettier": true,
     "no-console": false,
-    "interface-name": [true, "never-prefix"]
+    "interface-name": [true, "never-prefix"],
+    "ordered-imports": false
   },
   "rulesDirectory": ["tslint-plugin-prettier"]
 }
