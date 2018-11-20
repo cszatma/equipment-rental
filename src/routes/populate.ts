@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express';
 import populateTables from '../sql/populateTables';
 import executeSql from '../utils/executeSql';
 import { catchErrors } from '../utils/errorHandlers';
+import formatResult from '../utils/formatResult';
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.post(
   '/',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(populateTables, true);
-    res.json(results.map(result => result.rows));
+    res.json(results.map(formatResult));
   }),
 );
 
@@ -30,7 +31,7 @@ router.post(
       populateTables[req.params.index],
       true,
     );
-    res.json(result.rows);
+    res.json(formatResult(result));
   }),
 );
 

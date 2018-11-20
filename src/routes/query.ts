@@ -5,6 +5,7 @@ import advancedQueries from '../sql/advancedQueries';
 import executeSql from '../utils/executeSql';
 import queryViews from '../sql/queryViews';
 import { catchErrors } from '../utils/errorHandlers';
+import formatResult from '../utils/formatResult';
 
 const router = express.Router();
 
@@ -21,7 +22,7 @@ router.post(
   '/simple',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(simpleQueries);
-    res.json(results.map(result => result.rows));
+    res.json(results.map(formatResult));
   }),
 );
 
@@ -29,7 +30,7 @@ router.post(
   '/simple/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(simpleQueries[req.params.index]);
-    res.json(result.rows);
+    res.json(formatResult(result));
   }),
 );
 
@@ -46,7 +47,7 @@ router.post(
   '/advanced',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(advancedQueries);
-    res.json(results.map(result => result.rows));
+    res.json(results.map(formatResult));
   }),
 );
 
@@ -54,7 +55,7 @@ router.post(
   '/advanced/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(advancedQueries[req.params.index]);
-    res.json(result.rows);
+    res.json(formatResult(result));
   }),
 );
 
@@ -71,7 +72,7 @@ router.post(
   '/views',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(queryViews);
-    res.json(results.map(result => result.rows));
+    res.json(results.map(formatResult));
   }),
 );
 
@@ -79,7 +80,7 @@ router.post(
   '/views/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(queryViews[req.params.index]);
-    res.json(result.rows);
+    res.json(formatResult(result));
   }),
 );
 
