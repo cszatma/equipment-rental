@@ -15,9 +15,7 @@ const single = (sql: string, commit?: boolean): Promise<IExecuteReturn> =>
 
     try {
       connection = await oracledb.getConnection(oracleConfig);
-      const result = await connection.execute(sql, [], {
-        outFormat: oracledb.OBJECT,
-      });
+      const result = await connection.execute(sql);
       resolve(result);
 
       if (commit) {
@@ -42,7 +40,7 @@ const batch = (
     try {
       connection = await oracledb.getConnection(oracleConfig);
       const executionPromises = sqlStatements.map(sql =>
-        connection!.execute(sql, [], { outFormat: oracledb.OBJECT }),
+        connection!.execute(sql),
       );
       // @ts-ignore
       const results = await Promise.all(executionPromises);
