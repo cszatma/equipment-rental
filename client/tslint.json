@@ -13,7 +13,8 @@
     "no-console": false,
     "interface-name": [true, "never-prefix"],
     "ordered-imports": false,
-    "jsx-boolean-value": false
+    "jsx-boolean-value": false,
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": ["tslint-plugin-prettier"]
 }
