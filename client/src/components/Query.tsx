@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 
 import { server } from '@/utils';
-import { Optional } from '@/types';
-import getResultsArray from '@utils/ensureArray';
+import ensureArray from '@utils/ensureArray';
 import QueryItem from '@components/QueryItem';
 
 interface State {
-  simpleQueries: Optional<string[]>;
-  advancedQueries: Optional<string[]>;
+  simpleQueries?: string[];
+  advancedQueries?: string[];
 }
 
 const BASE_ROUTE = '/query';
@@ -24,14 +23,12 @@ export default class Query extends Component<{}, State> {
   public componentDidMount() {
     server
       .get(SIMPLE_QUERY_ROUTE)
-      .then(results =>
-        this.setState({ simpleQueries: getResultsArray(results) }),
-      );
+      .then(results => this.setState({ simpleQueries: ensureArray(results) }));
 
     server
       .get(ADVANCED_QUERY_ROUTE)
       .then(results =>
-        this.setState({ advancedQueries: getResultsArray(results) }),
+        this.setState({ advancedQueries: ensureArray(results) }),
       );
   }
 
@@ -54,10 +51,14 @@ export default class Query extends Component<{}, State> {
     return (
       <Container>
         <h1>Query</h1>
-        <h3>Simple Queries</h3>
-        {this.renderQueries(SIMPLE_QUERY_ROUTE, simpleQueries)}
-        <h3>Advanced Queries</h3>
-        {this.renderQueries(ADVANCED_QUERY_ROUTE, advancedQueries)}
+        <Container className="py-3">
+          <h3>Simple Queries</h3>
+          {this.renderQueries(SIMPLE_QUERY_ROUTE, simpleQueries)}
+        </Container>
+        <Container className="py-3">
+          <h3>Advanced Queries</h3>
+          {this.renderQueries(ADVANCED_QUERY_ROUTE, advancedQueries)}
+        </Container>
       </Container>
     );
   }
