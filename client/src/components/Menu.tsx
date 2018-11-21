@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class MainMenu extends Component<{}> {
+export default class Menu extends Component<{}> {
   public render() {
     return <h1>MainMenu</h1>;
   }
