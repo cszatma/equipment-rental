@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
+import { Container } from 'reactstrap';
 
 import '@styles/App.scss';
-import logo from '../logo.svg';
+import MainMenu from './MainMenu';
+import Create from './Create';
+import Delete from './Delete';
+import Populate from './Populate';
+import Query from './Query';
 
-class App extends React.Component {
-  public render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
+
+const redirectToMenu = () => <Redirect to="/" />;
+
+const App: FunctionComponent = () => (
+  <BrowserRouter>
+    <Container>
+      <Route exact path="/" component={MainMenu} />
+      <Route path="/create" component={Create} />
+      <Route path="/delete" component={Delete} />
+      <Route path="/populate" component={Populate} />
+      <Route path="/query" component={Query} />
+      <Route path="/mainmenu" render={redirectToMenu} />
+    </Container>
+  </BrowserRouter>
+);
 
 export default App;
