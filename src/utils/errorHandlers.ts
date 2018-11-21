@@ -34,7 +34,12 @@ export const handleOracleErrors = (
       return next(err);
   }
 
-  res.json({ error: err });
+  const json = { error: { ...err } };
+  if (!json.error.message) {
+    json.error.message = res.statusMessage;
+  }
+
+  res.json(json);
 };
 
 export const handleErrors = (
