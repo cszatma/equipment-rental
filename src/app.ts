@@ -9,7 +9,7 @@ import createRoutes from './routes/create';
 import deleteRoutes from './routes/delete';
 import populateRoutes from './routes/populate';
 import queryRoutes from './routes/query';
-import { handleErrors } from './utils/errorHandlers';
+import { handleErrors, handleOracleErrors } from './utils/errorHandlers';
 
 const app = express();
 
@@ -20,6 +20,7 @@ app.use('/api/delete', deleteRoutes);
 app.use('/api/populate', populateRoutes);
 app.use('/api/query', queryRoutes);
 
+app.use(handleOracleErrors);
 app.use(handleErrors);
 
 if (process.env.NODE_ENV === 'production') {
