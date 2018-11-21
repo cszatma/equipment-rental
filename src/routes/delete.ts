@@ -3,7 +3,6 @@ import express, { Request, Response } from 'express';
 import dropTables from '../sql/dropTables';
 import executeSql from '../utils/executeSql';
 import { catchErrors } from '../utils/errorHandlers';
-import formatResult from '../utils/formatResult';
 
 const router = express.Router();
 
@@ -20,7 +19,7 @@ router.post(
   '/tables',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(dropTables);
-    res.json(results.map(formatResult));
+    res.json(results);
   }),
 );
 
@@ -28,7 +27,7 @@ router.post(
   '/tables/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(dropTables[req.params.index]);
-    res.json(formatResult(result));
+    res.json(result);
   }),
 );
 

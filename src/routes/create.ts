@@ -4,7 +4,6 @@ import createTables from '../sql/createTables';
 import createViews from '../sql/createViews';
 import executeSql from '../utils/executeSql';
 import { catchErrors } from '../utils/errorHandlers';
-import formatResult from '../utils/formatResult';
 
 const router = express.Router();
 
@@ -21,7 +20,7 @@ router.post(
   '/tables',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(createTables);
-    res.json(results.map(formatResult));
+    res.json(results);
   }),
 );
 
@@ -29,7 +28,7 @@ router.post(
   '/tables/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(createTables[req.params.index]);
-    res.json(formatResult(result));
+    res.json(result);
   }),
 );
 
@@ -46,7 +45,7 @@ router.post(
   '/views',
   catchErrors(async (req: Request, res: Response) => {
     const results = await executeSql.batch(createViews);
-    res.json(results.map(formatResult));
+    res.json(results);
   }),
 );
 
@@ -54,7 +53,7 @@ router.post(
   '/views/:index',
   catchErrors(async (req: Request, res: Response) => {
     const result = await executeSql.single(createViews[req.params.index]);
-    res.json(formatResult(result));
+    res.json(result);
   }),
 );
 
