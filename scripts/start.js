@@ -5,6 +5,13 @@ process.env.NODE_ENV = 'development';
 process.on('unhandledRejection', err => {
   throw err;
 });
+process.on('SIGTERM', stopHandler);
+process.on('SIGINT', stopHandler);
+process.on('SIGHUP', stopHandler);
+function stopHandler() {
+  console.log('Stopped forcefully');
+  process.exit(0);
+}
 
 const chalk = require('chalk');
 const spawnSync = require('child_process').spawnSync;
