@@ -32,7 +32,7 @@ export default class Navbar extends Component<Props, State> {
 
   public renderItems() {
     return this.props.items.map(item => (
-      <NavItem>
+      <NavItem key={item}>
         <NavLink className="nav-link" activeClassName="active" to={`/${item}`}>
           {capitalizeString(item)}
         </NavLink>
