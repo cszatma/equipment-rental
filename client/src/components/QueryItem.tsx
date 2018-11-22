@@ -9,6 +9,8 @@ import ResultTable from '@components/ResultTable';
 interface Props {
   query: string;
   route: string;
+  result?: Result;
+  error?: any;
 }
 
 interface State {
@@ -18,8 +20,16 @@ interface State {
 
 export default class QueryItem extends Component<Props, State> {
   public state: Readonly<State> = {
-    result: undefined,
+    result: this.props.result,
+    error: this.props.error,
   };
+
+  public static getDerivedStateFromProps(props: Props, state: State) {
+    return {
+      result: props.result,
+      error: props.error,
+    };
+  }
 
   public handleExecute = () => {
     server

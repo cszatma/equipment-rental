@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { Container } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 
 import { server } from '@/utils';
 import ensureArray from '@utils/ensureArray';
-import QueryItem from '@components/QueryItem';
+import { Result } from '@/types';
+import renderQueries from '@utils/renderQueries';
 
 interface State {
   simpleQueries?: string[];
   advancedQueries?: string[];
+  simpleResults?: Result[];
+  simpleErrors?: any[];
+  advancedResults?: Result[];
 }
 
 const BASE_ROUTE = '/query';
@@ -32,32 +36,53 @@ export default class Query extends Component<{}, State> {
       );
   }
 
-  public renderQueries(route: string, queries?: string[]) {
-    if (!queries) {
-      return null;
-    }
+  public handleExecuteSimple = () => {
+    server
+      .post(SIMPLE_QUERY_ROUTE)
+      .then(results => this.setState({ simpleResults: ensureArray(results) }));
+  };
 
-    return queries.map((query, i) => (
-      <QueryItem
-        key={query}
-        query={query}
-        route={`${SIMPLE_QUERY_ROUTE}/${i}`}
-      />
-    ));
-  }
+  public handleExecuteAdvanced = () => {
+    server
+      .post(ADVANCED_QUERY_ROUTE)
+      .then(results =>
+        this.setState({ advancedResults: ensureArray(results) }),
+      );
+  };
 
   public render() {
-    const { simpleQueries, advancedQueries } = this.state;
+    const {
+      simpleQueries,
+      advancedQueries,
+      simpleResults,
+      simpleErrors,
+      advancedResults,
+    } = this.state;
     return (
       <Container>
         <h1>Query</h1>
         <Container className="py-3">
           <h3>Simple Queries</h3>
-          {this.renderQueries(SIMPLE_QUERY_ROUTE, simpleQueries)}
+          <Button color="danger" onClick={this.handleExecuteSimple}>
+            Execute All
+          </Button>
+          {renderQueries(
+            SIMPLE_QUERY_ROUTE,
+            simpleQueries,
+            simpleResults,
+            simpleErrors,
+          )}
         </Container>
         <Container className="py-3">
           <h3>Advanced Queries</h3>
-          {this.renderQueries(ADVANCED_QUERY_ROUTE, advancedQueries)}
+          <Button color="danger" onClick={this.handleExecuteAdvanced}>
+            Execute All
+          </Button>
+          {renderQueries(
+            ADVANCED_QUERY_ROUTE,
+            advancedQueries,
+            advancedResults,
+          )}
         </Container>
       </Container>
     );
